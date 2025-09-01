@@ -41,10 +41,10 @@ SKEW = 1
 #################
 
 '''
-function to load the csv
+Function to load the csv.
 path_ is the path of a file. ONLY ONE
 delimiter_ is the delimiter in the csv file, like ','
-the returned object is a pandas DataFrame
+the returned object is a pandas DataFrame.
 '''
 def load(path_, delimiter_) :
     
@@ -54,8 +54,8 @@ def load(path_, delimiter_) :
     return csv
 
 '''
-function to load a whole directory
-same as load
+Function to load a whole directory
+same as load.
 '''
 def load_directory(path_, delimiter_) :
 
@@ -90,12 +90,11 @@ def save(csv_, name_) :
 ### Useful
 
 '''
-function to transform the dataframe
+Function to transform the dataframe
 into a numpy matrix.
 For maths purpose
-but loose the labels
+but loose the labels.
 matrix_ is the dataframe from "load" function
-TODO: return a copy of the labels to put them again after
 '''
 def to_numpy(matrix_) :
     
@@ -104,7 +103,7 @@ def to_numpy(matrix_) :
     return np_matrix
 
 '''
-function to transform the numpy array
+Function to transform the numpy array
 back to a dataframe
 matrix_ is a numpy array
 and header_ is the name of the columns/rows. It need to start with 'Row'
@@ -118,18 +117,18 @@ def to_df(matrix_, header_) :
     return df
 
 '''
-Transform a list of numpy array matrix into a list of cell
-Allow the applications of statistical test
-The lenght of the list is equal to the shape of the matrix
+Transform a list of numpy array matrix into a list of cell.
+Allow the applications of statistical test.
+The lenght of the list is equal to the shape of the matrix.
 '''
 def to_list(matrix_list_) :
     
     shape = matrix_list_[0].shape
     length = len(matrix_list_)
 
-    # big ugly 3D matrix that will store every cell
-    # first and second identier should be the same place
-    # the third is the position of the initial list
+    # 3D matrix that will store every cell
+    # First and second identier should be the same place
+    # The third is the position of the initial list
     output_list = [[[0.0] * length] * shape[0]] * shape[1]
     output_list = np.array(output_list)
 
@@ -150,7 +149,7 @@ def rename(matrix_, labels_) :
     if isinstance(labels_, list) :
         label_list = matrix_.columns.to_list()
         if len(label_list) != len(labels_) :
-            raise ValueError("The number of labels passed mismatch the number of labels in the matrix! IF you want to rename only some labels, use the dictionnary form! See: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename.html")
+            raise ValueError("The number of labels passed mismatch the number of labels in the matrix! If you want to rename only some labels, use the dictionnary form! See: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename.html")
         labels = {}
         for prev, new in zip(label_list, labels_) :
             labels[prev] = new
@@ -188,7 +187,7 @@ def drop(matrix_, labels_) :
 '''
 Compute the mean of a list of matrix
 the csv_list_ is a list of pandas dataframe
-from the function "load"
+from the function "load".
 '''
 def mean(csv_list_) :
 
@@ -210,7 +209,7 @@ def mean(csv_list_) :
 '''
 Compute the standard deviation of a list of matrix
 the csv_list_ is a list of pandas dataframe
-from the function "load"
+from the function "load".
 '''
 def std(csv_list_) :
 
@@ -230,7 +229,7 @@ def std(csv_list_) :
 
 
 '''
-a function to compute the fisher's z-transformation of a matrix
+A function to compute the fisher's z-transformation of a matrix.
 The z is the inverse hyperbolic tangent function or the pearson correlation coefficient. 
 '''
 def fisher_transform(csv_) :
@@ -247,7 +246,7 @@ def fisher_transform(csv_) :
     return z_fisher_df
 
 '''
-Same as before, but for a list of matrix
+Same as before, but for a list of matrix.
 '''
 def fisher_transform_list(list_csv_) :
 
@@ -258,9 +257,9 @@ def fisher_transform_list(list_csv_) :
 
 '''
 Shapiro-Wilk to test the normality of data.
-Take an array of Dataframe after a fisher transform
+Take an array of Dataframe after a fisher transform.
 Returns a matrix with the stats and another with the p-value.
-Normally distributed with p > 0.05
+Normally distributed with p > 0.05.
 '''
 def shapiro(csv_list_) :
 
@@ -286,9 +285,9 @@ def shapiro(csv_list_) :
     return stat_df, p_df
 
 '''
-test to check if the data distribution is symmetrical
-Take an array of Dataframe after a fisher transform
-Returns skew df
+Test to check if the data distribution is symmetrical.
+Take an array of Dataframe after a fisher transform.
+Returns skew df.
 '''
 def skew(csv_list_) :
 
@@ -312,9 +311,9 @@ def skew(csv_list_) :
     return skew_df
 
 '''
-Main function to compare the H0 hypotesis
+Main function to compare the H0 hypotesis.
 for 2 dependant sample group.
-Take a list of dataframe from the 'load_directory' function
+Take a list of dataframe from the 'load_directory' function.
 Returns a matrix with the stats, the p-value and one with the test used.
 '''
 def two_dependant_samples(group_1_, group_2_) :
@@ -399,7 +398,7 @@ def two_dependant_samples(group_1_, group_2_) :
 '''
 Main function to compare the H0 hypotesis
 for 2 independant sample group.
-Take a list of dataframe from the 'load_directory' function
+Take a list of dataframe from the 'load_directory' function.
 Returns a matrix with the stats, the p-value and one with the test used.
 '''
 def two_independant_samples(group_1_, group_2_, trim_ = 0.1) :
@@ -465,7 +464,7 @@ def two_independant_samples(group_1_, group_2_, trim_ = 0.1) :
 
 '''
 Plot function allowing to draw any matrix.
-Take a dataframe outputed by any function
+Take a dataframe outputed by any function.
 '''
 def plot(df_, title = None, save = None, show = True, vmax = 1, vmin = -1, colormap = "bwr") :
 
@@ -513,7 +512,6 @@ def plot_p(df_, title = None, save = None, show = True, dark = True) :
         
     newcmp = ListedColormap(newcolors)
 
-
     fig, ax = plt.subplots(figsize=(8.5, 7), squeeze=True)
     hm = seaborn.heatmap(df_, cmap = newcmp, annot = True, square = True, annot_kws = {'size':'x-small','color': 'black'}, fmt = ',.2f', cbar = False)
 
@@ -532,14 +530,12 @@ def plot_p(df_, title = None, save = None, show = True, dark = True) :
     return
 
 '''
-Fonction to draw a chord filled diagramm
+Fonction to draw a chord filled diagramm.
 Use the openChord library.
 Take the dataframe and the name as how the file need to be saved
 The other optionnals arguments are described.
 The image is saved as a SVG, you may have to convert it to a PNG to use it anywhere.
 '''
-
-
 def chord(df_, 
           name = None,
           radius = 300, # size of the circle
